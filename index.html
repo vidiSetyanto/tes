@@ -20,7 +20,7 @@
 </p>
  <!-- <button ng-click="SelectName(selected.Name)">Show</button> -->
 <div class="table-responsive">
-  <table class="table">
+  <table class="table" style="font-size:40px">
     <thead>
 	<tr style="background-color:antiquewhite">
 		<th>Date</th><th>Amount</th><th>Description</th>
@@ -39,9 +39,20 @@
   </table>
 </div>
  
+ <form>
+ <div class='container-fluid typeahead'>    
+    <input ng-model="Pwd"type="password" class="form-control input-lg" >
+	</div>
+ <div class='container-fluid typeahead' ng-if="Show()">
+    <label for="exampleInputEmail1">amt</label>
+    <input ng-model="Amount"type="number" class="form-control" >
+  </div>
+  <div class='container-fluid typeahead' ng-show="Show()">
+    <label for="exampleInputEmail1">Desc</label>
+    <input ng-model="Description"type="text" class="form-control input-lg"  placeholder="Description">
+  </div>
+  <button ng-click="Insert()" class="btn btn-default" ng-if="Show()">Submit</button>
+</form>
  </div>
-<script>
-
-</script> 
 </body>
 <html>
