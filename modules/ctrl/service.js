@@ -11,7 +11,7 @@ $scope.selected = {Name:""};
 $scope.Pwd='';
 
 $scope.Selected = 0;
-
+$scope.IsLoading=false;
 $scope.Show = Show;
 $scope.Initialize = Initialize;
 
@@ -21,32 +21,39 @@ function Initialize()
 }
 function GetNames()
 {
+	$scope.IsLoading = true;
 	   $http.get("http://tpulsa.com/sql.php")
    .then(function (response) {
    console.log(response);
-   $scope.names = response.data.records;});
+   $scope.names = response.data.records;
+   $scope.IsLoading = false;
+   });
 	
 }
 
 function SelectName( name )
 {
+	$scope.IsLoading = true;
 	var req = {
- method: 'POST',
- url: 'http://tpulsa.com/UserServices.php',
- headers: {
-   'Content-Type': 'application/json; charset=UTF-8'
- },
- data: { serviceName:"RetrieveTransaction", name: name }
-}
+		method: 'POST',
+		url: 'http://tpulsa.com/UserServices.php',
+		headers: {
+			'Content-Type': 'application/json; charset=UTF-8'
+			},
+			data: { serviceName:"RetrieveTransaction", name: name }
+			}
 
-$http(req).then(function (response) {
-   console.log(response);
-   var total=0;
-   var records = response.data.records;
-   for(var i=0;i<records.length;i++)
-	   total+=Number( records[ i ].Amount );
-   $scope.Total = total;
-   $scope.List = records;}).catch(Error);
+			$http(req).then(function (response) {
+				console.log(response);
+				var total=0;
+				var records = response.data.records;
+				for(var i=0;i<records.length;i++)
+					total+=Number( records[ i ].Amount );
+				$scope.Total = total;
+				$scope.List = records;
+				$scope.IsLoading = false;
+				}).catch(Error);
+				
 }
 
 function GetHistory()
@@ -103,6 +110,7 @@ function SelectedChanged( val )
 
 function Insert()
 {
+	$scope.IsLoading = true;
 	console.log($scope.selected,$scope.Amount, $scope.Description);
 	if( !$scope.selected.ID )
 	{
@@ -128,13 +136,14 @@ $http(req).then(function (response) {
    $scope.Amount="";
    $scope.Description="";
    SelectedChanged($scope.selected);
-   alert( "inserted" );
+   $scope.IsLoading = false;
    }).catch(Error);
 }
 
 function Error(response)
 {
 	alert(response.toString());
+	$scope.IsLoading = false;
 }
 
 function Show()

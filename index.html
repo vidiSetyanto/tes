@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="Styles/main.css">
 
 </head>
-<body ng-app="myApp" ng-init="Initialize()">
+<body ng-app="myApp" ng-controller="customersCtrl" ng-init="Initialize()">
 <ul class="nav nav-tabs">
   <li ng-click="Selected=1"ng-class="Selected==1?'active':''"><a >Catetan</a></li>
   <li ng-click="Selected=2" ng-class="Selected==2?'active':''"><a >Transaksi</a></li>
@@ -19,7 +19,7 @@
 <div ng-if="Selected==1"ng-controller="customersCtrl" ng-init="GetNames()">
  	<p>Name : 
 	<div class='container-fluid typeahead col md-10'>
-    <input type="text" ng-model="selected" uib-typeahead="name as name.Name for name in names | filter:$viewValue | limitTo:8" class="form-control input-lg">
+    <input type="text" ng-disabled="IsLoading"ng-model="selected" uib-typeahead="name as name.Name for name in names | filter:$viewValue | limitTo:8" class="form-control input-lg">
 </div>
 
 </p>
@@ -46,17 +46,17 @@
  
  <form>
  <div class='container-fluid typeahead'>    
-    <input ng-model="Pwd"type="password" class="form-control input-lg" >
+    <input ng-disabled="IsLoading" ng-model="Pwd"type="password" class="form-control input-lg" >
 	</div>
  <div class='container-fluid typeahead' ng-show="Show()">
     <label for="exampleInputEmail1">amt</label>
-    <input ng-model="Amount"type="number" class="form-control" >
+    <input ng-disabled="IsLoading" ng-model="Amount"type="number" class="form-control" >
   </div>
   <div class='container-fluid typeahead' ng-show="Show()">
     <label for="exampleInputEmail1">Desc</label>
-    <input ng-model="Description"type="text" class="form-control input-lg"  placeholder="Description">
+    <input ng-disabled="IsLoading" ng-model="Description"type="text" class="form-control input-lg"  placeholder="Description">
   </div>
-  <button ng-click="Insert()" class="btn btn-default" ng-if="Show()">Submit</button>
+  <button ng-disabled="IsLoading" ng-click="Insert()" class="btn btn-default" ng-if="Show()">Submit</button>
 </form>
  </div>
  
@@ -98,5 +98,7 @@
 	<tbody>
   </table>
  </div> 
+ <div>
+ </div>
 </body>
 <html>
