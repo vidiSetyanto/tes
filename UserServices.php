@@ -43,6 +43,49 @@ else if( $_serviceName == "AddTransaction" )
 	
 		$conn->close();
 }
+
+else if($_serviceName == "RetrieveAllTransaction")
+{
+	$result = $conn->query("SELECT t.Date Date,
+	c.Name,
+	t.amount Amount,
+	t.desc Description
+	FROM Customer c join w0_transaction t on c.ID=t.cust_ID
+	  where c.Name != 'Vd'
+	  order by Date desc limit 0,30");
+
+	$outp = "";
+	while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+		if ($outp != "") {$outp .= ",";}
+		$outp .= '{"Date":"'  . $rs["Date"] . '",';
+		$outp .= '"Name":"'  . $rs["Name"] . '",';
+		$outp .= '"Description":"'  . $rs["Description"] . '",';
+		$outp .= '"Amount":"'. $rs["Amount"]     . '"}'; 
+		}
+		$outp ='{"records":['.$outp.']}';
+		$conn->close();
+}
+
+else if($_serviceName == "RetrievePendings")
+{
+	$result = $conn->query("SELECT 
+	c.Name,
+	(select sum(amount) from w0_transaction where cust_ID=c.id) as Total
+	FROM Customer c join w0_transaction t on c.ID=t.cust_ID
+	where c.Name !='vd'
+	group by c.Name
+	order by c.Name asc");
+
+	$outp = "";
+	while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+		if ($outp != "") {$outp .= ",";}
+		$outp .= '{"Name":"'  . $rs["Name"] . '",';
+		$outp .= '"Total":"'. $rs["Total"]     . '"}'; 
+		}
+		$outp ='{"records":['.$outp.']}';
+		$conn->close();	
+}
+
 if($outp)
 	echo($outp);
 ?>

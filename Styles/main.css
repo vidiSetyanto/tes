@@ -23,3 +23,7 @@
     border-radius: 0;
     box-shadow: none;
   }
+  
+  .table-history>tbody>tr>td{
+	  padding : 3px;
+	  }

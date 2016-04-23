@@ -3,13 +3,22 @@ app.controller('customersCtrl', function($scope, $http) {
 
 $scope.GetNames = GetNames;
 $scope.SelectName = SelectName;
+$scope.GetHistory = GetHistory;
+$scope.RetrievePendings = RetrievePendings;
 $scope.Insert = Insert;
 $scope.$watch( 'selected',SelectedChanged );
 $scope.selected = {Name:""};
 $scope.Pwd='';
 
-$scope.Show = Show;
+$scope.Selected = 0;
 
+$scope.Show = Show;
+$scope.Initialize = Initialize;
+
+function Initialize()
+{
+	$scope.Selected=1;
+}
 function GetNames()
 {
 	   $http.get("http://tpulsa.com/sql.php")
@@ -40,11 +49,55 @@ $http(req).then(function (response) {
    $scope.List = records;}).catch(Error);
 }
 
+function GetHistory()
+{
+	var req = {
+		method: 'POST',
+		url: 'http://tpulsa.com/UserServices.php',
+		headers: {
+			'Content-Type': 'application/json; charset=UTF-8'
+			},
+			data: { serviceName:"RetrieveAllTransaction", name: name }
+}
+
+$http(req).then(function (response) {
+   console.log(response);
+   var total=0;
+   var records = response.data.records;
+   for(var i=0;i<records.length;i++)
+	   total+=Number( records[ i ].Amount );
+   $scope.Total = total;
+   $scope.List = records;}).catch(Error);
+}
+
+function RetrievePendings()
+{
+	var req = {
+		method: 'POST',
+		url: 'http://tpulsa.com/UserServices.php',
+		headers: {
+			'Content-Type': 'application/json; charset=UTF-8'
+			},
+			data: { serviceName:"RetrievePendings" }
+			};
+			
+			$http(req).then(function (response) {
+				console.log(response);
+				var total=0;
+				var records = response.data.records;
+				for(var i=0;i<records.length;i++)
+					total+=Number( records[ i ].Total );
+				$scope.Total = total;
+				$scope.List = records;}).catch(Error);
+	
+}
+
 function SelectedChanged( val )
 {
 	if(typeof(val)=="object")
 	{
-		SelectName( val.Name );
+		if( val.Name )
+			SelectName( val.Name );
 	}
 }
 
@@ -89,6 +142,7 @@ function Show()
 	return $scope.Pwd.length==4;
 }
 });
+
 app.controller('TypeaheadCtrl', function($scope, $http) {
 
   var _selected;
