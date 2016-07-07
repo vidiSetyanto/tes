@@ -3,7 +3,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-$conn = new mysqli("mysql.idhostinger.com", "u532537586_vidi", "database2", "u532537586_vidi");
+$conn = new mysqli("mysql.idhostinger.com", "u276525806_vidi", "database2", "u276525806_pulsa");
 
 $result = $conn->query("SELECT * FROM Customer");
 

@@ -40,11 +40,18 @@
 			<td style="text-align:right;padding-right:25px">{{row.Amount}}</td>
 			<td>{{row.Description}}</td>
 		</tr>
+	<tr style="background-color: bisque;color: #B70000;">
+		<td  style="text-align:right">Total</td><td style="text-align:right;padding-right:25px">{{Total}}</td><td></td>
+	</tr>
 	<tbody>
   </table>
 
  
  <form>
+ <div class='container-fluid typeahead' ng-show="Show()">    
+    <input type="text" ng-disabled="IsLoading"ng-model="selected" uib-typeahead="name as name.Name for name in names | filter:$viewValue | limitTo:8" class="form-control input-lg">
+</div>
+
  <div class='container-fluid typeahead'>    
     <input ng-disabled="IsLoading" ng-model="Pwd"type="password" class="form-control input-lg" >
 	</div>
@@ -95,6 +102,9 @@
 			<td>{{row.Name}}</td>
 			<td style="text-align:right;padding-right:25px">{{row.Total}}</td>			
 		</tr>
+	<tr style="background-color: bisque;color: #B70000;">
+		<th  style="text-align:right">Total</th><th style="text-align:right;padding-right:25px">{{Total}}</th>
+	</tr>
 	<tbody>
   </table>
  </div> 
