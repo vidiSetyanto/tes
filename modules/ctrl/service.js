@@ -14,7 +14,12 @@ $scope.Selected = 0;
 $scope.IsLoading=false;
 $scope.Show = Show;
 $scope.Initialize = Initialize;
+$scope.SelectedPage=1;
+$scope.PageNumber=10;
 
+$scope.UpdatePage=UpdatePage;
+
+$scope.$watch("PageNumber",GetPagedData);
 function Initialize()
 {
 	$scope.Selected=1;
@@ -45,15 +50,51 @@ function SelectName( name )
 
 			$http(req).then(function (response) {
 				console.log(response);
+				$scope.SelectedPage=1;
 				var total=0;
 				var records = response.data.records;
 				for(var i=0;i<records.length;i++)
 					total+=Number( records[ i ].Amount );
 				$scope.Total = total;
 				$scope.List = records;
+				GetPagedData();
 				$scope.IsLoading = false;
 				}).catch(Error);
 				
+}
+
+function GetPagedData()
+{
+	var paged={};
+	var numberOfPage=Clone($scope.PageNumber);
+	var interval = Clone(numberOfPage);
+	var currentPage=1;
+	UpdatePage(currentPage);
+	for(var i=0;i<$scope.List.length;i++)
+	{console.log(i+" "+currentPage+" "+interval+" "+numberOfPage);
+		if(!paged[currentPage])
+		{
+			paged[currentPage]=[$scope.List[i]];
+			continue;
+		}
+		paged[currentPage].push($scope.List[i]);
+		if(i==interval-1)
+		{
+			currentPage+=1;
+			interval+=eval(numberOfPage);
+		}
+		
+	}
+	$scope.PagedData=paged;
+	function Clone(a)
+	{
+		return a;
+	}
+}
+
+function UpdatePage(no)
+{
+	$scope.SelectedPage=no;
 }
 
 function GetHistory()
