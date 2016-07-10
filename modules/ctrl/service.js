@@ -29,7 +29,7 @@ function GetNames()
 	$scope.IsLoading = true;
 	   $http.get("http://cekpulsa.ml//sql.php")
    .then(function (response) {
-   console.log(response);
+   //console.log(response);
    $scope.names = response.data.records;
    $scope.IsLoading = false;
    });
@@ -71,7 +71,7 @@ function GetPagedData()
 	var currentPage=1;
 	UpdatePage(currentPage);
 	for(var i=0;i<$scope.List.length;i++)
-	{console.log(i+" "+currentPage+" "+interval+" "+numberOfPage);
+	{$scope.List[i]=ConvertToAppFormat($scope.List[i]);
 		if(!paged[currentPage])
 		{
 			paged[currentPage]=[$scope.List[i]];
@@ -92,6 +92,24 @@ function GetPagedData()
 	}
 }
 
+function ConvertToAppFormat(data)
+{
+	var serverTimeZone=-4;
+	Date.prototype.ToLocal = function() {    
+	var d = new Date();
+    var n = d.getTimezoneOffset();
+	var diff=n+(serverTimeZone*60);
+	console.log("current:"+n+"\n diff  with server:"+diff);
+	this.setTime(this.getTime() - (diff*60*1000)); 
+   return this;   
+	}
+	var date = new Date(data.Date);
+	console.log(1+" "+date);
+	data.Date=date.ToLocal();
+	console.log(data);
+	return data;
+}
+
 function UpdatePage(no)
 {
 	$scope.SelectedPage=no;
@@ -109,7 +127,6 @@ function GetHistory()
 }
 
 $http(req).then(function (response) {
-   console.log(response);
    var total=0;
    var records = response.data.records;
    for(var i=0;i<records.length;i++)
