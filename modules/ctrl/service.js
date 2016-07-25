@@ -15,11 +15,11 @@ $scope.IsLoading=false;
 $scope.Show = Show;
 $scope.Initialize = Initialize;
 $scope.SelectedPage=1;
-$scope.PageNumber=10;
+$scope.PageSize=5;
 
 $scope.UpdatePage=UpdatePage;
 
-$scope.$watch("PageNumber",GetPagedData);
+$scope.$watch("PageSize",GetPagedData);
 function Initialize()
 {
 	$scope.Selected=1;
@@ -66,7 +66,7 @@ function SelectName( name )
 function GetPagedData()
 {
 	var paged={};
-	var numberOfPage=Clone($scope.PageNumber);
+	var numberOfPage=Clone($scope.PageSize);
 	var interval = Clone(numberOfPage);
 	var currentPage=1;
 	UpdatePage(currentPage);
@@ -132,6 +132,8 @@ $http(req).then(function (response) {
    for(var i=0;i<records.length;i++)
 	   total+=Number( records[ i ].Amount );
    $scope.Total = total;
+   for(var i=0;i<records.length;i++)
+	   records[i]=ConvertToAppFormat(records[i]);
    $scope.List = records;}).catch(Error);
 }
 

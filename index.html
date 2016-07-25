@@ -48,7 +48,7 @@
 <ul class="pagination" style="float:right;margin-right:30px;">
   <li ng-repeat="(key,data) in PagedData" ng-click="UpdatePage(key)"><a>{{key}}</a></li>
 </ul>
-  <input type="number" ng-model="PageNumber" class="form-control input-sm" style="width: 65px;display: inline;float: right;margin:22px 22px 0 0;">
+  <input type="number" ng-model="PageSize" class="form-control input-sm" style="width: 65px;display: inline;float: right;margin:22px 22px 0 0;">
 
  <form>
  <div class='container-fluid typeahead' ng-show="Show()">    
@@ -80,7 +80,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="row in List">
-			<td>{{row.Date}}</td>
+			<td>{{row.Date | date:"dd/MM/yyyy 'at' hh:mma"}}</td>
 			<td>{{row.Name}}</td>
 			<td style="text-align:right;padding-right:25px">{{row.Amount}}</td>
 			<td>{{row.Description}}</td>
