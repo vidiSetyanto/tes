@@ -7,6 +7,7 @@ $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
 $_serviceName = $request->serviceName;
 $_datas = $request->datas;
+$_ignore="('vd','vd2')";
 
 $conn = new mysqli("mysql.idhostinger.com", "u276525806_vidi", "database2", "u276525806_pulsa");
 if($_serviceName=="RetrieveTransaction")
@@ -51,8 +52,9 @@ else if($_serviceName == "RetrieveAllTransaction")
 	t.amount Amount,
 	t.desc Description
 	FROM Customer c join w0_transaction t on c.ID=t.cust_ID
-	  where c.Name != 'Vd'
-	  order by Date desc limit 0,30");
+	  where 
+	  c.Name not in ".$_ignore."
+	   order by Date desc limit 0,30");
 
 	$outp = "";
 	while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -72,8 +74,9 @@ else if($_serviceName == "RetrievePendings")
 	c.Name,
 	(select sum(amount) from w0_transaction where cust_ID=c.id) as Total
 	FROM Customer c join w0_transaction t on c.ID=t.cust_ID
-	where c.Name !='vd'
-	group by c.Name
+	where c.Name not in 
+	".$_ignore."
+	 group by c.Name
 	order by c.Name asc");
 
 	$outp = "";
