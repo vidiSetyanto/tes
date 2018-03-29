@@ -16,6 +16,7 @@ $scope.Show = Show;
 $scope.Initialize = Initialize;
 $scope.SelectedPage=1;
 $scope.PageSize=5;
+$scope.List=[];
 
 $scope.UpdatePage=UpdatePage;
 
@@ -27,7 +28,7 @@ function Initialize()
 function GetNames()
 {
 	$scope.IsLoading = true;
-	   $http.get("http://cekpulsa.ml//sql.php")
+	   $http.get("http://cekpulsa.hol.es//sql.php")
    .then(function (response) {
    //console.log(response);
    $scope.names = response.data.records;
@@ -41,7 +42,7 @@ function SelectName( name )
 	$scope.IsLoading = true;
 	var req = {
 		method: 'POST',
-		url: 'http://cekpulsa.ml//UserServices.php',
+		url: 'http://cekpulsa.hol.es//UserServices.php',
 		headers: {
 			'Content-Type': 'application/json; charset=UTF-8'
 			},
@@ -119,7 +120,7 @@ function GetHistory()
 {
 	var req = {
 		method: 'POST',
-		url: 'http://cekpulsa.ml//UserServices.php',
+		url: 'http://cekpulsa.hol.es//UserServices.php',
 		headers: {
 			'Content-Type': 'application/json; charset=UTF-8'
 			},
@@ -141,7 +142,7 @@ function RetrievePendings()
 {
 	var req = {
 		method: 'POST',
-		url: 'http://cekpulsa.ml//UserServices.php',
+		url: 'http://cekpulsa.hol.es//UserServices.php',
 		headers: {
 			'Content-Type': 'application/json; charset=UTF-8'
 			},
@@ -184,7 +185,7 @@ function Insert()
 	}
 	var req = {
 		method: 'POST',
-		url: 'http://cekpulsa.ml//UserServices.php',
+		url: 'http://cekpulsa.hol.es//UserServices.php',
 		headers: {
 			'Content-Type': 'application/json; charset=UTF-8'
 			},

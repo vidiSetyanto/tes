@@ -45,10 +45,15 @@
 	</tr>
 	<tbody>
   </table>
-<ul class="pagination" style="float:right;margin-right:30px;">
+<!-- <ul class="pagination" style="float:right;margin-right:30px;">
   <li ng-repeat="(key,data) in PagedData" ng-click="UpdatePage(key)"><a>{{key}}</a></li>
-</ul>
-  <input type="number" ng-model="PageSize" class="form-control input-sm" style="width: 65px;display: inline;float: right;margin:22px 22px 0 0;">
+</ul> -->
+  <div>
+  <table>
+  <tr><td>Page Size</td><td><input type="number" ng-model="PageSize" class="form-control input-sm" style="width: 65px;display: inline;float: right;margin:0 22px 0 0;"></td></tr>
+  <tr><td>Page Number</td><td><input type="number" ng-model="PageNumber" ng-change="UpdatePage(PageNumber)" class="form-control input-sm" style="width: 65px;display: inline;float: right;margin:0 22px 0 0;"></td></tr>
+  </table>
+  </div>
 
  <form>
  <div class='container-fluid typeahead' ng-show="Show()">    
